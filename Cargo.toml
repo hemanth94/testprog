@@ -1,0 +1,18 @@
+[package]
+name = "testprog"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.38"
+fastrand = "2.0.2"
+glob = "0.3.1"
+polars = { version = "0.45.0", features = [
+    "lazy", "streaming", "ndarray", "parquet", "rows", "diagonal_concat",
+    "rolling_window", "dtype-full", "polars-io", "sql", "binary_encoding",
+    "dtype-categorical"
+] }
+hashbrown = { version = "0.14.5", features = ["raw"] }
+smartstring = "1.0.1"
+object_store = { version = "0.10", features = ["gcp"] }
+
