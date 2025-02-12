@@ -323,7 +323,8 @@ fn test1() -> Result<(), Box<dyn Error>> {
 }
 
 fn test8() -> Result<(), Box<dyn Error>> {
-    let cloud_path = "/home/hemanth/Downloads/enlarged_output.parquet";
+    let cloud_path = "/home/hemanth/Downloads/flights-1m.parquet";
+    // enlarged_output.parquet
 
     let args = ScanArgsParquet {
         parallel: ParallelStrategy::Prefiltered,
@@ -336,7 +337,21 @@ fn test8() -> Result<(), Box<dyn Error>> {
         .filter(col("AIR_TIME").eq(lit(1)))
         .collect()
         .unwrap();
-    eprintln!("{}", df);
+
+    let res = df!("d" => &["2300-01-01T00:00:00Z".to_string()])?
+        .lazy()
+        .with_column(col("d").str().strptime(
+            DataType::Datetime(TimeUnit::Nanoseconds, None),
+            StrptimeOptions {
+                format: Some("%Y-%m-%dT%H:%M:%SZ".to_string().into()),
+                strict: false,
+                exact: true,
+                cache: true,
+            },
+            lit("null"),
+        ))
+        .collect();
+    println!("{}", res.unwrap());
     Ok(())
 }
 
