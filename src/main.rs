@@ -432,7 +432,6 @@ mod external {
     }
     use core::fmt::Debug;
     use core::marker::PhantomData;
-    use std::sync::LazyLock;
 
     use hashbrown::HashMap;
     pub struct Stream<T: Send + 'static + Debug> {
